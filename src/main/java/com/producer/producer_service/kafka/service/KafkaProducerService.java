@@ -1,8 +1,7 @@
 package com.producer.producer_service.kafka.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.producer.producer_service.model.Transaction;
+import com.producer.producer_service.model.TransactionMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,11 +23,11 @@ public class KafkaProducerService {
     @Value("${spring.kafka.topic}")
     private String TRANSACTIONAL_TOPIC;
 
-    public void sendTransaction(final Transaction transaction) throws Exception {
-        final String message = objectMapper.writeValueAsString(transaction);
+    public void sendTransaction(final TransactionMessage transactionMessage) throws Exception {
+        final String message = objectMapper.writeValueAsString(transactionMessage);
         final CompletableFuture<SendResult<String, String>> sendMessage =
                 kafkaTemplateString.send(TRANSACTIONAL_TOPIC, message);
         log.info(sendMessage.get().getRecordMetadata().topic());
-        log.info("Send message: {}",sendMessage.get().getProducerRecord().value());
+        log.info("Send message: {}", sendMessage.get().getProducerRecord().value());
     }
 }

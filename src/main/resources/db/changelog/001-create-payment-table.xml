@@ -1,0 +1,24 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="Maksim7398" id="001-create-payment-table">
+        <preConditions>
+            <not>
+                <tableExists tableName="payment_table"/>
+            </not>
+        </preConditions>
+        <createTable tableName="payment_table">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="payment_table_pkey"/>
+            </column>
+            <column name="account_id_destination" type="UUID"/>
+            <column name="account_id_source" type="UUID"/>
+            <column name="amount" type="numeric(38, 2)"/>
+            <column name="bik_destination" type="INTEGER"/>
+            <column name="bik_source" type="INTEGER"/>
+            <column name="commission" type="numeric(38, 2)"/>
+            <column name="status_payment" type="VARCHAR(255)"/>
+            <column name="user_id_destination" type="UUID"/>
+            <column name="user_id_source" type="UUID"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
