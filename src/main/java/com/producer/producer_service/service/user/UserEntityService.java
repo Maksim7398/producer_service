@@ -16,19 +16,21 @@ public class UserEntityService {
     private final UserEntityRepository userEntityRepository;
 
     @Transactional
-    public UUID findIdByEmail(String email) {
+    public UUID findIdByEmail(final String email) {
         final UserEntity userEntity = new UserEntity();
         userEntity.setEmail(email);
         UserEntity newUser = userEntityRepository.save(userEntity);
+
         return newUser.getId();
     }
 
-    public UserEntity updateUser(UUID id,ProfileRequest profileRequest){
+    public UserEntity updateUser(final UUID id, final ProfileRequest profileRequest) {
         final UserEntity userEntity = userEntityRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         userEntity.setFirstName(profileRequest.getFirstName());
         userEntity.setLastName(profileRequest.getLastName());
         userEntity.setPhone(profileRequest.getPhone());
+
         return userEntityRepository.save(userEntity);
     }
 

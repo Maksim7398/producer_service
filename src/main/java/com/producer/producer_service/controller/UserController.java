@@ -2,10 +2,10 @@ package com.producer.producer_service.controller;
 
 import com.producer.producer_service.controller.request.LoginRequest;
 import com.producer.producer_service.controller.request.ProfileRequest;
-import com.producer.producer_service.exception.NotAuthorizedException;
 import com.producer.producer_service.persist.entity.UserEntity;
 import com.producer.producer_service.security.TokenProvider;
 import com.producer.producer_service.service.user.UserEntityService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,8 +26,8 @@ public class UserController {
     private final TokenProvider tokenProvider;
 
     @PostMapping("/signin")
-    public String signin(@RequestBody LoginRequest loginRequest) {
-        return tokenProvider.getToken(true,loginRequest).block();
+    public String signIn(@RequestBody @Valid LoginRequest loginRequest) {
+        return tokenProvider.getToken(true, loginRequest).block();
     }
 
     @PostMapping
@@ -37,11 +37,7 @@ public class UserController {
 
     @PatchMapping(path = "/auth/{id}")
     public UserEntity update(@PathVariable(name = "id") UUID id,
-                             @RequestBody ProfileRequest profileRequest) {
-        try {
-            return userEntityService.updateUser(id, profileRequest);
-        }catch (NotAuthorizedException ex){
-            throw ex;
-        }
+                             @RequestBody @Valid ProfileRequest profileRequest) {
+        return userEntityService.updateUser(id, profileRequest);
     }
 }

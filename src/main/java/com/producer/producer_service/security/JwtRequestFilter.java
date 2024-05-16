@@ -1,6 +1,5 @@
 package com.producer.producer_service.security;
 
-import com.producer.producer_service.exception.NotAuthorizedException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +25,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         if (request.getServletPath().contains("/api/v1/user/auth/")) {
             String userID = request.getServletPath().replace("/api/v1/user/auth/", "");
+            String token = getToken(request, response);
+            System.out.println(userID);
+            jwtUtil.validateToken(token, userID);
+        }
+        if (request.getServletPath().contains("/api/v1/user/transfer/")){
+            String userID = request.getServletPath().replace("/api/v1/user/transfer/", "");
             String token = getToken(request, response);
             jwtUtil.validateToken(token, userID);
         }

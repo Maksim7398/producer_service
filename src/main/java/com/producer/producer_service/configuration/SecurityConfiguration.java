@@ -38,6 +38,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests((auth) -> {
                     auth.requestMatchers("/api/v1/user/**").permitAll()
+                            .requestMatchers("/api/v1/user/transfer/**").permitAll()
                             .anyRequest().authenticated();
                 })
                 .exceptionHandling(configurer ->
